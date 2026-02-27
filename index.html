@@ -3,87 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueCredit Union | Admin Terminal</title>
+    <title>BlueCredit Union | Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .hidden { display: none; }
-        .active-tab { background-color: #1e40af; color: white; border-radius: 1rem; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .active-tab { background-color: #1e40af; color: white; border-radius: 12px; }
     </style>
 </head>
-<body class="bg-[#0f172a] font-sans text-slate-200 overflow-x-hidden">
+<body class="bg-[#0f172a] font-sans text-slate-200">
 
     <div id="login-section" class="min-h-screen flex items-center justify-center p-6 bg-slate-950">
-        <div class="max-w-md w-full bg-white rounded-[2.5rem] p-12 shadow-2xl text-slate-800">
-            <div class="text-center mb-10">
-                <h1 class="text-4xl font-black text-blue-700 tracking-tighter italic">BlueCredit</h1>
-                <p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-2">Secure Admin Gateway</p>
-            </div>
-            <form id="login-form" class="space-y-6">
-                <div>
-                    <label class="block text-xs font-black text-slate-500 uppercase mb-2">Access ID</label>
-                    <input type="text" id="admin-id" required placeholder="Admin-01" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs font-black text-slate-500 uppercase mb-2">Passcode</label>
-                    <input type="password" id="admin-pass" required placeholder="••••••••" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition font-bold">
-                </div>
-                <button type="submit" class="w-full bg-blue-700 text-white font-black py-5 rounded-2xl hover:bg-blue-800 shadow-xl shadow-blue-200 transition text-lg">Initialize Terminal</button>
+        <div class="max-w-md w-full bg-white rounded-[2rem] p-10 shadow-2xl text-slate-800 text-center">
+            <h1 class="text-3xl font-black text-blue-700 italic mb-2">BlueCredit</h1>
+            <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-8">Admin Terminal</p>
+            <form id="login-form" class="space-y-4 text-left">
+                <input type="text" id="admin-id" placeholder="Admin ID" required class="w-full p-4 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-bold">
+                <input type="password" id="admin-pass" placeholder="Password" required class="w-full p-4 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 font-bold">
+                <button type="submit" class="w-full bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg">Authorize Access</button>
             </form>
         </div>
     </div>
 
     <div id="admin-dashboard" class="hidden min-h-screen flex">
-        <aside class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col p-6 shadow-2xl">
-            <div class="p-4 text-2xl font-black text-blue-500 mb-10">BlueCredit</div>
+        <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col p-6 shadow-xl">
+            <div class="text-xl font-black text-blue-400 mb-10">BlueCredit</div>
             <nav class="flex-1 space-y-2">
-                <button onclick="showTab('overview')" id="btn-overview" class="active-tab w-full text-left p-4 flex items-center font-bold transition">
-                    <i class="fas fa-grid-2 mr-4 opacity-50"></i>Overview
-                </button>
-                <button onclick="showTab('members')" id="btn-members" class="w-full text-left p-4 flex items-center font-bold text-slate-500 hover:text-white transition">
-                    <i class="fas fa-users mr-4"></i>Members
-                </button>
-                <button onclick="showTab('logs'); fetchLogs();" id="btn-logs" class="w-full text-left p-4 flex items-center font-bold text-slate-500 hover:text-white transition">
-                    <i class="fas fa-list-ul mr-4"></i>Audit Logs
-                </button>
+                <button onclick="showTab('overview')" id="btn-overview" class="active-tab w-full text-left p-4 flex items-center font-bold">Overview</button>
+                <button onclick="showTab('members')" id="btn-members" class="w-full text-left p-4 flex items-center font-bold text-slate-500 hover:text-white transition">Members</button>
+                <button onclick="showTab('logs'); fetchLogs();" id="btn-logs" class="w-full text-left p-4 flex items-center font-bold text-slate-500 hover:text-white transition">Audit Logs</button>
             </nav>
-            <button onclick="location.reload()" class="p-4 text-red-500 font-bold flex items-center hover:bg-red-500/10 rounded-xl transition">
-                <i class="fas fa-sign-out-alt mr-4"></i>Logout
-            </button>
+            <button onclick="location.reload()" class="p-4 text-red-500 font-bold flex items-center"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
         </aside>
 
         <main class="flex-1 p-12 overflow-y-auto">
             <div id="tab-overview">
                 <h2 class="text-4xl font-black mb-8">Bank Liquidity</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-slate-800/50 border border-slate-700 p-10 rounded-[2rem]">
-                        <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mb-2">Total Deposits</p>
-                        <h3 class="text-5xl font-black text-white" id="vault-total">$0.00</h3>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700">
+                        <p class="text-slate-500 text-xs font-bold uppercase mb-2">Total System Assets</p>
+                        <h3 class="text-4xl font-black" id="vault-total">$0.00</h3>
                     </div>
-                    <div class="bg-slate-800/50 border border-slate-700 p-10 rounded-[2rem]">
-                        <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mb-2">Total Members</p>
-                        <h3 class="text-5xl font-black text-white" id="member-count">0</h3>
+                    <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700">
+                        <p class="text-slate-500 text-xs font-bold uppercase mb-2">Active Members</p>
+                        <h3 class="text-4xl font-black" id="member-count">0</h3>
                     </div>
                 </div>
             </div>
 
             <div id="tab-members" class="hidden">
-                <div class="flex justify-between items-center mb-10">
+                <div class="flex justify-between items-center mb-8">
                     <h2 class="text-4xl font-black">Member Registry</h2>
-                    <button onclick="toggleModal('add-member-modal')" class="bg-blue-600 px-8 py-4 rounded-2xl font-black shadow-lg shadow-blue-900/40">Register New</button>
+                    <button onclick="toggleModal('add-member-modal')" class="bg-blue-600 px-6 py-3 rounded-xl font-bold hover:bg-blue-500 shadow-lg">Register Member</button>
                 </div>
-                <div class="bg-slate-800/50 border border-slate-700 rounded-[2rem] overflow-hidden">
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
                     <table class="w-full text-left">
-                        <thead class="bg-slate-800 text-slate-500 text-[10px] uppercase font-black tracking-widest">
-                            <tr>
-                                <th class="p-6">Member</th>
-                                <th class="p-6">Account No</th>
-                                <th class="p-6">Balance</th>
-                                <th class="p-6 text-center">Action</th>
-                            </tr>
+                        <thead class="bg-slate-700 text-slate-400 text-[10px] uppercase font-black">
+                            <tr><th class="p-6">Name</th><th class="p-6">Account No</th><th class="p-6">Balance</th><th class="p-6 text-center">Action</th></tr>
                         </thead>
                         <tbody id="member-table-body" class="divide-y divide-slate-700"></tbody>
                     </table>
@@ -91,16 +67,11 @@
             </div>
 
             <div id="tab-logs" class="hidden">
-                <h2 class="text-4xl font-black mb-10">Audit Trail</h2>
-                <div class="bg-slate-800/50 border border-slate-700 rounded-[2rem] overflow-hidden">
+                <h2 class="text-4xl font-black mb-8">Audit Trail</h2>
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
                     <table class="w-full text-left">
-                        <thead class="bg-slate-800 text-slate-500 text-[10px] uppercase font-black tracking-widest">
-                            <tr>
-                                <th class="p-6">Timestamp</th>
-                                <th class="p-6">Action</th>
-                                <th class="p-6">Change</th>
-                                <th class="p-6">Result</th>
-                            </tr>
+                        <thead class="bg-slate-700 text-slate-400 text-[10px] uppercase font-black">
+                            <tr><th class="p-6">Date</th><th class="p-6">Type</th><th class="p-6">User ID</th><th class="p-6">Final Balance</th></tr>
                         </thead>
                         <tbody id="log-table-body" class="divide-y divide-slate-700 text-xs"></tbody>
                     </table>
@@ -109,30 +80,27 @@
         </main>
     </div>
 
-    <div id="add-member-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
-        <div class="bg-white rounded-[3rem] w-full max-w-lg p-12 text-slate-900 shadow-2xl">
-            <h3 class="text-3xl font-black mb-8">Create Account</h3>
+    <div id="add-member-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-6 z-50">
+        <div class="bg-white rounded-[2rem] w-full max-w-md p-10 text-slate-900 shadow-2xl">
+            <h3 class="text-2xl font-black mb-6">Create Account</h3>
             <form id="register-form" class="space-y-4">
-                <input type="text" id="reg-name" required placeholder="Full Name" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold">
-                <input type="email" id="reg-email" required placeholder="Email" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold">
-                <input type="password" id="reg-pass" required placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 font-bold">
-                <button type="submit" class="w-full bg-blue-700 text-white font-black py-5 rounded-2xl">Confirm Member</button>
-                <button type="button" onclick="toggleModal('add-member-modal')" class="w-full text-slate-400 font-bold text-sm">Cancel</button>
+                <input type="text" id="reg-name" placeholder="Full Legal Name" required class="w-full p-4 bg-slate-50 border rounded-xl font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="email" id="reg-email" placeholder="Email Address" required class="w-full p-4 bg-slate-50 border rounded-xl font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="password" id="reg-pass" placeholder="Access Password" required class="w-full p-4 bg-slate-50 border rounded-xl font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                <button type="submit" class="w-full bg-blue-700 text-white font-black py-4 rounded-xl shadow-lg">Confirm Member</button>
+                <button type="button" onclick="toggleModal('add-member-modal')" class="w-full text-slate-400 font-bold text-sm mt-2">Close</button>
             </form>
         </div>
     </div>
 
-    <div id="edit-balance-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-6 z-50">
-        <div class="bg-white rounded-[3rem] w-full max-w-md p-12 text-slate-900 shadow-2xl text-center">
-            <h3 class="text-2xl font-black mb-2" id="edit-user-name">User Name</h3>
-            <p class="text-slate-400 text-xs font-bold mb-8 uppercase tracking-widest">Adjust Ledger Balance</p>
+    <div id="edit-balance-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-6 z-50">
+        <div class="bg-white rounded-[2rem] w-full max-w-md p-10 text-slate-900 text-center shadow-2xl">
+            <h3 class="text-2xl font-black mb-2" id="edit-user-name">User</h3>
+            <p class="text-slate-400 text-xs font-bold uppercase mb-8 tracking-widest">Adjust Balance</p>
             <form id="edit-balance-form" class="space-y-6 text-left">
                 <input type="hidden" id="edit-user-id">
-                <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase">Amount ($)</label>
-                    <input type="number" id="new-balance-input" required class="w-full p-6 bg-slate-50 border rounded-2xl text-3xl font-black outline-none focus:ring-2 focus:ring-green-500">
-                </div>
-                <button type="submit" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl text-lg">Update Records</button>
+                <input type="number" id="new-balance-input" step="0.01" required class="w-full p-6 bg-slate-50 border rounded-2xl text-3xl font-black focus:ring-2 focus:ring-green-500 outline-none">
+                <button type="submit" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl text-lg shadow-xl">Update Ledger</button>
                 <button type="button" onclick="toggleModal('edit-balance-modal')" class="w-full text-slate-400 font-bold text-sm text-center">Cancel</button>
             </form>
         </div>
@@ -142,7 +110,7 @@
         const API_URL = window.location.origin;
         let currentEditId = null;
 
-        // AUTH FAKE BYPASS FOR DEMO
+        // AUTH FAKE BYPASS (Matches AD-102938 / password123 from Neon)
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             document.getElementById('login-section').classList.add('hidden');
@@ -150,42 +118,38 @@
             fetchMembers();
         });
 
-        function showTab(tabName) {
-            ['overview', 'members', 'logs'].forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('btn-' + t).classList.remove('active-tab', 'text-white');
-                document.getElementById('btn-' + t).classList.add('text-slate-500');
+        function showTab(t) {
+            ['overview', 'members', 'logs'].forEach(tab => {
+                document.getElementById('tab-' + tab).classList.add('hidden');
+                document.getElementById('btn-' + tab).classList.remove('active-tab', 'text-white');
+                document.getElementById('btn-' + tab).classList.add('text-slate-500');
             });
-            document.getElementById('tab-' + tabName).classList.remove('hidden');
-            document.getElementById('btn-' + tabName).classList.add('active-tab', 'text-white');
+            document.getElementById('tab-' + t).classList.remove('hidden');
+            document.getElementById('btn-' + t).classList.add('active-tab', 'text-white');
         }
 
-        function toggleModal(id) {
-            document.getElementById(id).classList.toggle('hidden');
-        }
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
         async function fetchMembers() {
-            try {
-                const res = await fetch(`${API_URL}/api/members`);
-                const members = await res.json();
-                const table = document.getElementById('member-table-body');
-                table.innerHTML = '';
-                let total = 0;
-                members.forEach(m => {
-                    total += parseFloat(m.balance);
-                    table.innerHTML += `
-                        <tr class="hover:bg-slate-700/20 transition">
-                            <td class="p-6 font-bold text-white">${m.full_name}</td>
-                            <td class="p-6 font-mono text-blue-400 font-bold">${m.account_number}</td>
-                            <td class="p-6 font-black text-green-400">$${parseFloat(m.balance).toLocaleString()}</td>
-                            <td class="p-6 text-center">
-                                <button onclick="openEdit(${m.id}, '${m.full_name}', ${m.balance})" class="bg-slate-700 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-white hover:text-black transition">EDIT</button>
-                            </td>
-                        </tr>`;
-                });
-                document.getElementById('vault-total').innerText = `$${total.toLocaleString()}`;
-                document.getElementById('member-count').innerText = members.length;
-            } catch (e) { console.error(e); }
+            const res = await fetch(`/api/members`);
+            const members = await res.json();
+            const table = document.getElementById('member-table-body');
+            table.innerHTML = '';
+            let total = 0;
+            members.forEach(m => {
+                total += parseFloat(m.balance);
+                table.innerHTML += `
+                    <tr class="hover:bg-slate-700/20 border-b border-slate-700/50">
+                        <td class="p-6 font-bold text-white">${m.full_name}</td>
+                        <td class="p-6 font-mono text-blue-400">${m.account_number}</td>
+                        <td class="p-6 font-black text-green-400">$${parseFloat(m.balance).toLocaleString()}</td>
+                        <td class="p-6 text-center">
+                            <button onclick="openEdit(${m.id}, '${m.full_name}', ${m.balance})" class="bg-slate-700 px-5 py-2 rounded-xl text-[10px] font-black hover:bg-white hover:text-black transition">EDIT</button>
+                        </td>
+                    </tr>`;
+            });
+            document.getElementById('vault-total').innerText = `$${total.toLocaleString()}`;
+            document.getElementById('member-count').innerText = members.length;
         }
 
         function openEdit(id, name, balance) {
@@ -196,25 +160,45 @@
             toggleModal('edit-balance-modal');
         }
 
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await fetch(`/api/register`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    full_name: document.getElementById('reg-name').value,
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-pass').value
+                })
+            });
+            toggleModal('add-member-modal');
+            fetchMembers();
+            document.getElementById('register-form').reset();
+        });
+
         document.getElementById('edit-balance-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const res = await fetch(`${API_URL}/api/update-balance`, {
+            await fetch(`/api/update-balance`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: currentEditId, balance: document.getElementById('new-balance-input').value })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    id: currentEditId,
+                    balance: document.getElementById('new-balance-input').value
+                })
             });
-            if (res.ok) { toggleModal('edit-balance-modal'); fetchMembers(); }
+            toggleModal('edit-balance-modal');
+            fetchMembers();
         });
 
         async function fetchLogs() {
-            const res = await fetch(`${API_URL}/api/logs`);
+            const res = await fetch(`/api/logs`);
             const logs = await res.json();
             document.getElementById('log-table-body').innerHTML = logs.map(l => `
                 <tr class="border-b border-slate-700/50">
-                    <td class="p-6 text-slate-500">${new Date(l.created_at).toLocaleString()}</td>
-                    <td class="p-6 font-bold">#USER-0${l.user_id}</td>
-                    <td class="p-6"><span class="px-2 py-1 bg-blue-900/30 text-blue-400 rounded-md font-black">${l.type}</span></td>
-                    <td class="p-6 font-black text-white">$${parseFloat(l.new_balance).toLocaleString()}</td>
+                    <td class="p-6 text-slate-500 font-mono">${new Date(l.created_at).toLocaleString()}</td>
+                    <td class="p-6 font-black text-blue-400">${l.type}</td>
+                    <td class="p-6 font-bold text-white">#USR-0${l.user_id}</td>
+                    <td class="p-6 font-black text-green-400">$${parseFloat(l.new_balance).toLocaleString()}</td>
                 </tr>`).join('');
         }
     </script>
